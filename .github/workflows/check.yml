@@ -1,0 +1,27 @@
+name: Eslite Banner Check
+
+on:
+  schedule:
+    - cron: "0 1 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install playwright
+      - run: playwright install --with-deps chromium
+      - run: python eslite_banner_checker.py --output report.csv --notify-email justinwu@eslite.com
+        env:
+          SMTP_HOST: smtp.gmail.com
+          SMTP_PORT: 587
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: eslite-report
+          path: report.csv
