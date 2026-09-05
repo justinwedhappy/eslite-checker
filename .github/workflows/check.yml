@@ -15,7 +15,7 @@ jobs:
           python-version: "3.11"
       - run: pip install playwright
       - run: playwright install --with-deps chromium
-      - run: python eslite_banner_checker.py --output report.csv --notify-email you@example.com
+      - run: python eslite_banner_checker.py --output report.csv --notify-email justinwu@eslite.com
         env:
           SMTP_HOST: smtp.gmail.com
           SMTP_PORT: 587
